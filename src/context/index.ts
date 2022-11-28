@@ -3,10 +3,8 @@ interface Themes {
   foreground: String
   background: String
 }
-const themes = {
-  light: {
+export const themes = {
     foreground: "#000000",
     background: "#eeeeee",
-  },
 }
-export const Context = createContext<Themes>(themes.light)
+export const Context = createContext<Themes>(themes)

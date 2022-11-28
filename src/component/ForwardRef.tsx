@@ -5,16 +5,15 @@ const ForwardRef = forwardRef<
   {
     children: ReactElement
     ref: RefObject<HTMLButtonElement>
-    onClick: () => void
-    msg: string
+    message: string
   }
 >((props, ref) => (
-  <>
-    {props.msg}
-    <button type='button' ref={ref} onClick={() => console.log(111)}>
+  <div>
+    <span>{props.message}</span>
+    <button ref={ref} onClick={() => console.log("调用子组件的方法")}>
       {props.children}
     </button>
-  </>
+  </div>
 ))
 
 export default ForwardRef

@@ -1,9 +1,9 @@
 import React, { FC } from "react"
-import { Context, themes } from "./context/index"
 import ForWardRefImg from "../src/assets/gif/forwardRef.gif"
 import { Tabs } from "antd"
 import { UnControlled as CodeMirror } from "react-codemirror2"
-import Ww from "../src/component/Ww"
+import "codemirror/lib/codemirror.css"
+import "codemirror/mode/javascript/javascript"
 import "./index.scss"
 const App: FC = (props) => {
   return (
@@ -76,8 +76,44 @@ export default App`}
             ),
           },
           {
-            label: "forwardRef",
+            label: "ref",
             key: "item-4",
+            children: (
+              <CodeMirror
+                value={`import React, { useRef } from "react"
+const App = ( ) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
+  return (
+    <>
+      <div
+        ref={ref}
+        onClick={() => {
+          if (btnRef.current != null) {
+            btnRef.current.click()
+          }
+        }}
+      >
+        ww
+      </div>
+      <button ref={btnRef} onClick={() => console.log(btnRef.current)}>
+        click me
+      </button>
+    </>
+  )
+}
+export default App`}
+                options={{
+                  mode: "javascript",
+                  theme: "material",
+                  lineNumbers: true,
+                }}
+              />
+            ),
+          },
+          {
+            label: "forwordRef",
+            key: "item-5",
             children: (
               <div>
                 会创建一个React组件，这个组件能够将其接受的 ref
@@ -147,7 +183,7 @@ const ref = useRef<HTMLButtonElement>(null)
           },
           {
             label: "useContext",
-            key: "item-5",
+            key: "item-6",
             children: (
               <div>
                 useContext: 跨级传送数据,不用props一层一层传递
@@ -220,6 +256,61 @@ const Son = ( ) => {
   )
 }
 export default Son`}
+                  options={{
+                    mode: "javascript",
+                    theme: "material",
+                    lineNumbers: true,
+                  }}
+                />
+              </div>
+            ),
+          },
+          {
+            label: "useReducer",
+            key: "item-7",
+            children: (
+              <div>
+                reducer.ts文件如下:
+                <CodeMirror
+                  value={`interface Tstate {
+  count: number
+}
+type TAction = {
+  type: "increment" | "decrement"
+  payload?: number
+}
+const reducer = (state: Tstate, action: TAction) => {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + action.payload! }
+    case "decrement":
+      return { count: state.count - 1 }
+  }
+}
+export default reducer`}
+                  options={{
+                    mode: "javascript",
+                    theme: "material",
+                    lineNumbers: true,
+                  }}
+                />
+                <br />
+                需要使用到reducer里面得数据得文件:
+                <CodeMirror
+                  value={`import React, { FC, useReducer } from "react"
+import reducer from "../reducer"
+
+const Child: FC = () => {
+  // reducer是 纯函数  第二个参数是默认值
+  const [state, dispatch] = useReducer(reducer, { count: 0 })
+  return (
+    <div >
+      <div onClick={() => dispatch({ type: "increment", payload: 1 })}>点我+1 {state.count}</div>
+      <div onClick={() => dispatch({ type: "decrement", payload: 1 })}>点我-1 {state.count}</div>
+    </div>
+  )
+}
+export default Child`}
                   options={{
                     mode: "javascript",
                     theme: "material",
